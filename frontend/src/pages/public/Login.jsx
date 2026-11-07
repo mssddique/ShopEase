@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import AuthShell from '../../components/common/AuthShell';
 import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -48,24 +50,26 @@ const Login = () => {
   };
 
   return (
-    <div className="row justify-content-center">
-      <div className="col-md-6 col-lg-4">
-        <div className="card shadow">
-          <div className="card-body p-4">
-            <h3 className="text-center mb-4">Login</h3>
-            
-            {errors.general && (
-              <div className="alert alert-danger">{errors.general}</div>
-            )}
-
-            <form onSubmit={handleSubmit}>
+    <AuthShell
+      title="Log in"
+      subtitle="Welcome back. Enter your details to continue."
+      footer={<>New to ShopEase? <Link to="/register" className="fw-semibold">Create an account</Link></>}
+    >
+        {location.state?.message && (
+          <div className="alert alert-info" role="status">{location.state.message}</div>
+        )}
+        {errors.general && (
+          <div className="alert alert-danger" role="alert">{errors.general}</div>
+        )}
+        <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label htmlFor="email" className="form-label">Email</label>
+                <label htmlFor="email" className="form-label">Email or Username</label>
                 <input
-                  type="email"
+                  type="text"
                   className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                   id="email"
                   name="email"
+                  placeholder="you@example.com"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -89,29 +93,20 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="btn btn-primary w-100"
+                className="btn btn-primary w-100 py-2"
                 disabled={loading}
               >
                 {loading ? (
                   <>
                     <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Logging in...
+                    Logging in
                   </>
                 ) : (
-                  'Login'
+                  'Log in'
                 )}
               </button>
             </form>
-
-            <div className="text-center mt-3">
-              <p className="mb-0">
-                Don't have an account? <Link to="/register" className="text-primary">Register</Link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </AuthShell>
   );
 };
 

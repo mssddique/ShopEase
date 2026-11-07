@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" fill="#f1f5f9"/>
+  <g fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="70" y="70" width="260" height="260" rx="20"/>
+    <circle cx="150" cy="150" r="25"/>
+    <path d="M90 280l80-80 60 60 40-40 60 60"/>
+  </g>
+  <text x="200" y="315" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" text-anchor="middle">
+    ShopEase
+  </text>
+</svg>

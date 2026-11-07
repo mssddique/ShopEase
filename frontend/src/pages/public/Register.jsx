@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import AuthShell from '../../components/common/AuthShell';
 import { useAuth } from '../../context/AuthContext';
 
 const Register = () => {
@@ -51,17 +52,15 @@ const Register = () => {
   };
 
   return (
-    <div className="row justify-content-center">
-      <div className="col-md-8 col-lg-6">
-        <div className="card shadow">
-          <div className="card-body p-4">
-            <h3 className="text-center mb-4">Register</h3>
-
-            {errors.general && (
-              <div className="alert alert-danger">{errors.general}</div>
-            )}
-
-            <form onSubmit={handleSubmit}>
+    <AuthShell
+      title="Create your account"
+      subtitle="It takes a minute. Phone, address and city are optional."
+      footer={<>Already have an account? <Link to="/login" className="fw-semibold">Log in</Link></>}
+    >
+        {errors.general && (
+          <div className="alert alert-danger" role="alert">{errors.general}</div>
+        )}
+        <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">Full Name</label>
                 <input
@@ -159,29 +158,20 @@ const Register = () => {
 
               <button
                 type="submit"
-                className="btn btn-success w-100"
+                className="btn btn-primary w-100 py-2"
                 disabled={loading}
               >
                 {loading ? (
                   <>
                     <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Registering...
+                    Creating account
                   </>
                 ) : (
-                  'Register'
+                  'Create account'
                 )}
               </button>
             </form>
-
-            <div className="text-center mt-3">
-              <p className="mb-0">
-                Already have an account? <Link to="/login" className="text-primary">Login</Link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </AuthShell>
   );
 };
 

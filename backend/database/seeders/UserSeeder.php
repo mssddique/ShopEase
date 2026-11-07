@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
+            'password' => 'password',
             'phone' => '03000000000',
             'address' => 'Head Office, Main Street',
             'city' => 'Karachi',
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => $customer['name'],
                 'email' => $customer['email'],
-                'password' => Hash::make('password'),
+                'password' => 'password',
                 'phone' => '0301' . rand(1000000, 9999999),
                 'address' => 'Street ' . rand(1, 100) . ', ' . $customer['city'],
                 'city' => $customer['city'],

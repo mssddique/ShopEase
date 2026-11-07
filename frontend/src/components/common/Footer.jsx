@@ -3,30 +3,36 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-white py-4 mt-auto">
+    <footer className="se-footer mt-auto">
       <div className="container">
-        <div className="row">
-          <div className="col-md-4 mb-3">
-            <h5>ShopEase</h5>
-            <p className="text-white">Your one-stop shop for all your needs.</p>
+        <div className="row g-4">
+          <div className="col-md-5">
+            <Link className="se-brand mb-3" to="/">
+              <span className="se-brand-mark"><i className="bi bi-bag-check-fill"></i></span>
+              ShopEase
+            </Link>
+            <p className="mb-0" style={{ maxWidth: '34ch' }}>
+              Browse by category or brand, save what you like, and check out securely.
+            </p>
           </div>
-          <div className="col-md-4 mb-3">
-            <h5>Quick Links</h5>
-            <ul className="list-unstyled">
-              <li><Link to="/products" className="text-white text-decoration-none">Products</Link></li>
-              <li><Link to="/categories" className="text-white text-decoration-none">Categories</Link></li>
-              <li><Link to="/brands" className="text-white text-decoration-none">Brands</Link></li>
+          <div className="col-6 col-md-3 offset-md-1">
+            <h5>Shop</h5>
+            <ul>
+              <li><Link to="/products">All products</Link></li>
+              <li><Link to="/categories">Categories</Link></li>
+              <li><Link to="/brands">Brands</Link></li>
             </ul>
           </div>
-          <div className="col-md-4 mb-3">
+          <div className="col-6 col-md-3">
             <h5>Contact</h5>
-            <p className="text-white">Email: info@shopease.com</p>
-            <p className="text-white">Phone: +1 234 567 890</p>
+            <ul>
+              <li>info@shopease.com</li>
+              <li>+1 234 567 890</li>
+            </ul>
           </div>
         </div>
-        <hr className="border-secondary" />
-        <div className="text-center text-white">
-          <small>&copy; 2026 ShopEase. All rights reserved.</small>
+        <div className="se-footer-bottom">
+          &copy; 2026 ShopEase. All rights reserved.
         </div>
       </div>
     </footer>

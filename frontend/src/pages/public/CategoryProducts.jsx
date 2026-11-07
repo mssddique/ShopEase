@@ -80,8 +80,11 @@ const CategoryProducts = () => {
         <div className="row align-items-center">
           <div className="col-md-2 text-center">
             <img
-            src={category.image_url || 'https://via.placeholder.com/300x300/eee/999?text=No+Image'}
-              // src={category.image ? `http://127.0.0.1:8000/storage/${category.image}`: '/no-image.png'}                    
+              src={category.image_url || '/images/no-image.svg'}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/images/no-image.svg';
+              }}
               alt={category.name}
               className="img-fluid"
               style={{ height: '100px', objectFit: 'contain' }}

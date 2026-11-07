@@ -7,6 +7,7 @@ const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
   const [adding, setAdding] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
   const [wishlistLoading, setWishlistLoading] = useState(false);
 
   const {
@@ -31,7 +32,8 @@ const ProductCard = ({ product }) => {
     setAdding(true);
     const result = await addToCart(id, 1);
     if (result.success) {
-      alert(result.message);
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 1600);
     } else {
       alert(result.message);
     }
@@ -55,89 +57,77 @@ const ProductCard = ({ product }) => {
     setWishlistLoading(false);
   };
 
+  const fallback = '/images/no-image.svg';
+
   return (
-    <div className="card h-100 shadow-sm hover-shadow">
-      <div className="position-relative">
-        <Link to={`/products/${id}`}>
+    <div className={`se-product${hasStock ? '' : ' is-out'}`}>
+      <div className="se-product-media">
+        <Link to={`/products/${id}`} className="d-block h-100" aria-label={name}>
           <img
-            //  src={ product.image ? `http://127.0.0.1:8000/storage/${product.image}`: '/no-image.png'}
-            src={image_url || 'https://via.placeholder.com/300x300/eee/999?text=No+Image'}
-            // onError={(e) => {
-            //   e.target.src = 'https://via.placeholder.com/300x300/eee/999?text=No+Image';
-            // }}
-            className="card-img-top"
+            src={image_url || fallback}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = fallback;
+            }}
             alt={name}
-            style={{ height: '200px', objectFit: 'cover' }}
+            loading="lazy"
           />
         </Link>
 
-        {sale_price && (
-          <span className="badge bg-danger position-absolute top-0 end-0 m-2">
-            -{discount}%
-          </span>
-        )}
+        {sale_price && <span className="se-flag">-{discount}%</span>}
+        {!hasStock && <span className="se-soldout">Sold out</span>}
 
-        <span className={`badge ${hasStock ? 'bg-success' : 'bg-danger'} position-absolute bottom-0 start-0 m-2`}>
-          {hasStock ? 'In Stock' : 'Out of Stock'}
-        </span>
+        <button
+          type="button"
+          className={`se-wish${isInWishlist ? ' is-on' : ''}`}
+          onClick={handleWishlistToggle}
+          disabled={wishlistLoading}
+          aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+          aria-pressed={isInWishlist}
+        >
+          <i className={`bi ${isInWishlist ? 'bi-heart-fill' : 'bi-heart'}`}></i>
+        </button>
       </div>
 
-      <div className="card-body d-flex flex-column">
-        <div className="d-flex justify-content-between align-items-center mb-1">
-          <small className="text-muted">{brand?.name || 'No Brand'}</small>
-          <small className="text-muted">{category?.name || 'No Category'}</small>
-        </div>
-
-        <Link to={`/products/${id}`} className="text-decoration-none">
-          <h6 className="card-title text-dark text-truncate-2">{name}</h6>
+      <div className="se-product-body">
+        <span className="se-product-brand">{brand?.name || category?.name || ''}</span>
+        <Link to={`/products/${id}`}>
+          <h3 className="se-product-name text-truncate-2">{name}</h3>
         </Link>
 
-        <div className="mt-auto">
-          <div className="d-flex align-items-center gap-2">
-            {sale_price ? (
-              <>
-                <span className="text-danger fw-bold fs-5">${sale_price}</span>
-                <span className="text-muted text-decoration-line-through">${price}</span>
-              </>
-            ) : (
-              <span className="fw-bold fs-5">${price}</span>
-            )}
-          </div>
-
-          <div className="mt-2 d-flex gap-2">
-            <button
-              className="btn btn-primary btn-sm flex-grow-1"
-              disabled={!hasStock || adding}
-              onClick={handleAddToCart}
-            >
-              {adding ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-1"></span>
-                  Adding...
-                </>
-              ) : (
-                <>
-                  <i className="bi bi-cart-plus me-1"></i>
-                  {hasStock ? 'Add to Cart' : 'Out of Stock'}
-                </>
-              )}
-            </button>
-            <button
-              className={`btn btn-sm ${isInWishlist ? 'btn-danger' : 'btn-outline-danger'}`}
-              onClick={handleWishlistToggle}
-              disabled={wishlistLoading}
-            >
-              <i className={`bi ${isInWishlist ? 'bi-heart-fill' : 'bi-heart'}`}></i>
-            </button>
-          </div>
-
-          <Link
-            to={`/products/${id}`}
-            className="btn btn-outline-secondary btn-sm w-100 mt-2"
-          >
-            View Details
-          </Link>
+        <div className="se-price-row">
+          {sale_price ? (
+            <>
+              <span className="se-price is-sale">${sale_price}</span>
+              <span className="se-price-old">${price}</span>
+            </>
+          ) : (
+            <span className="se-price">${price}</span>
+          )}
         </div>
+
+        <button
+          className="btn btn-primary btn-sm w-100"
+          disabled={!hasStock || adding}
+          onClick={handleAddToCart}
+        >
+          {adding ? (
+            <>
+              <span className="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+              Adding
+            </>
+          ) : justAdded ? (
+            <>
+              <i className="bi bi-check2 me-1"></i>Added
+            </>
+          ) : hasStock ? (
+            <>
+              <i className="bi bi-bag-plus me-1"></i>Add to cart
+            </>
+          ) : (
+            'Sold out'
+          )}
+        </button>
       </div>
     </div>
   );

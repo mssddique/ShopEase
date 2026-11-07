@@ -48,9 +48,11 @@ const Brands = () => {
               <div className="card h-100 text-center hover-shadow">
                 <div className="card-body d-flex flex-column align-items-center">
                   <img
-                        src={brand.image_url || 'https://via.placeholder.com/300x300/eee/999?text=No+Image'}
-
-                    // src={brand.image ? `http://127.0.0.1:8000/storage/${brand.image}`: '/no-image.png'}
+                    src={brand.image_url || '/images/no-image.svg'}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = '/images/no-image.svg';
+                    }}
                     alt={brand.name}
                     className="img-fluid mb-3"
                     style={{ height: '100px', objectFit: 'contain' }}

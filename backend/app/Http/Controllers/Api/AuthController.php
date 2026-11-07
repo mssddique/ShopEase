@@ -21,7 +21,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'phone' => $request->phone,
             'address' => $request->address,
             'city' => $request->city,
@@ -41,7 +41,12 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $loginInput = $request->email;
+
+        // Allow login with either email or username/name
+        $user = User::where('email', $loginInput)
+            ->orWhere('name', $loginInput)
+            ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->error('Invalid email or password', null, 401);
@@ -84,7 +89,7 @@ class AuthController extends Controller
         }
 
         $user->update([
-            'password' => Hash::make($request->new_password),
+            'password' => $request->new_password,
         ]);
 
         return $this->success(null, 'Password changed successfully');

@@ -23,7 +23,7 @@ const AdminCategories = () => {
     setLoading(true);
     try {
       const response = await adminApi.getCategories();
-      setCategories(response.data.data.data || []);
+      setCategories(response.data.data?.data || response.data.data || []);
     } catch (error) {
       console.error("Error fetching categories:", error);
       setCategories([]);
@@ -267,7 +267,7 @@ const AdminCategories = () => {
                         <img
                           src={
                             category.image_url ||
-                            "https://via.placeholder.com/50x50/eee/999?text=No+Image"
+                            "/images/no-image.svg"
                           }
                           alt={category.name}
                           style={{

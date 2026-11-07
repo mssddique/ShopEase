@@ -88,10 +88,14 @@ class Product extends Model
         return $this->sale_price ?? $this->price;
     }
 
-    //11.3 Add an accessor so image always returns a full URL
-    // Open app/Models/Product.php and add this accessor (append inside the class, after getFinalPriceAttribute):
     public function getImageUrlAttribute()
     {
-        return $this->image ? Storage::disk('public')->url($this->image) : null;
+        if (! $this->image) {
+            return null;
+        }
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+        return Storage::disk('public')->url($this->image);
     }
 }

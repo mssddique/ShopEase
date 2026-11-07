@@ -88,8 +88,7 @@ const Cart = () => {
                 const price = Number(item.price) || 0;
                 // const price = item.sale_price || item.price || product.sale_price || product.price || 0;
                 const itemTotal = price * item.quantity;
-                // const image = item.image_url || product.image_url || 'https://via.placeholder.com/100x100/eee/999?text=No+Image';
-                const image = product.image_url || product.image_url || 'https://via.placeholder.com/100x100/eee/999?text=No+Image';
+                const image = product.image_url || '/images/no-image.svg';
                 
 
                 return (
@@ -100,6 +99,10 @@ const Cart = () => {
                         <Link to={`/products/${product.id || item.product_id}`}>
                           <img
                             src={image}
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = '/images/no-image.svg';
+                            }}
                             alt={product.name || item.name}
                             style={{ width: '80px', height: '80px', objectFit: 'cover' }}
                             className="rounded"

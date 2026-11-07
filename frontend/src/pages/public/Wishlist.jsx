@@ -65,9 +65,11 @@ const Wishlist = () => {
                 <div className="position-relative">
                   <Link to={`/products/${product.id}`}>
                     <img
-                    src={product.image_url || 'https://via.placeholder.com/300x300/eee/999?text=No+Image'}
-                      // src={product.image ? `http://127.0.0.1:8000/storage/${product.image}`: '/no-image.png'}                    
-                      // src={product.image_url || 'https://via.placeholder.com/300x300/eee/999?text=No+Image'}
+                      src={product.image_url || '/images/no-image.svg'}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/images/no-image.svg';
+                      }}
                       className="card-img-top"
                       alt={product.name}
                       style={{ height: '200px', objectFit: 'cover' }}

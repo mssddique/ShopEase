@@ -161,7 +161,11 @@ const ProductDetails = () => {
           <div className="card">
             <div className="position-relative">
               <img
-                src={selectedImage || 'https://via.placeholder.com/600x600/eee/999?text=No+Image'}
+                src={selectedImage || '/images/no-image.svg'}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/images/no-image.svg';
+                }}
                 alt={product.name}
                 className="img-fluid rounded"
                 style={{ width: '100%', height: '400px', objectFit: 'contain' }}

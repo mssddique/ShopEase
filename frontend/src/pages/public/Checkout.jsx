@@ -377,7 +377,7 @@ const Checkout = () => {
                   const price = Number(item.price) || 0;
                   const image =
                     product.image_url ||
-                    "https://via.placeholder.com/50x50/eee/999?text=No+Image";
+                    "/images/no-image.svg";
 
                   return (
                     <div
